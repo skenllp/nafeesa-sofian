@@ -57,7 +57,7 @@ body{
   overflow-x:hidden;
   -webkit-font-smoothing:antialiased;
 }
-body.locked{ overflow:hidden; height:100vh; }
+
 
 img{ max-width:100%; display:block; }
 a{ color:inherit; }
@@ -168,70 +168,11 @@ a{ color:inherit; }
 }
 
 /* ============================================================
-   GATE — envelope opening video (first screen, no loader)
-============================================================ */
-#gate{
-  position:fixed; inset:0; z-index:1000;
-  background:var(--paper-soft);
-  transition:opacity 1.3s var(--ease), filter 1.3s var(--ease);
-}
-#gate.fading{ opacity:0; filter:blur(6px); pointer-events:none; }
-#gate.gone{ display:none; }
-
-.gate-poster{
-  position:absolute; inset:0;
-  width:100%; height:100%;
-  object-fit:cover;
-  z-index:1;
-  opacity:1;
-  transition:opacity .7s ease;
-}
-.gate-poster.hide{ opacity:0; }
-
-#envelope-video{
-  position:absolute; inset:0;
-  width:100%; height:100%;
-  object-fit:cover;
-  z-index:0;
-}
-
-.gate-veil{
-  position:absolute; inset:0;
-  background:radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(20,10,4,0.35) 100%);
-  pointer-events:none;
-  z-index:2;
-}
-
-#open-btn{
-  position:absolute; left:50%; bottom:9%; transform:translateX(-50%);
-  background:none;
-  border:none;
-  color:#FFFFFF;
-  padding:8px 10px;
-  font-family:var(--font-display);
-  font-size:16px;
-  font-weight:700;
-  letter-spacing:0.28em;
-  text-transform:uppercase;
-  cursor:pointer;
-  opacity:0;
-  z-index:3;
-  animation:fadeInUp 1.2s var(--ease) 0.4s forwards;
-}
-#open-btn.hidden{ display:none; }
-@keyframes fadeInUp{
-  from{ opacity:0; transform:translate(-50%,14px); }
-  to{ opacity:1; transform:translate(-50%,0); }
-}
-
-/* ============================================================
    PAGE SHELL
 ============================================================ */
 #page{
-  opacity:0;
-  transition:opacity 1.6s var(--ease);
+  opacity:1;
 }
-#page.visible{ opacity:1; }
 
 section{
   position:relative;
@@ -430,8 +371,8 @@ h1,h2,h3{ margin:0; font-weight:500; }
   display:block; font-size:11px; letter-spacing:0.34em;
   color:var(--sage); margin-bottom:10px;
 }
-.family-side .names{ font-size:17px; line-height:1.8; color:var(--ink); font-weight:600; }
-.family-side .amp{ display:block; font-style:italic; color:var(--copper); font-size:14px; margin:2px 0; }
+.family-side .names{ font-size:clamp(10px,3.2vw,16px); line-height:1.8; color:var(--ink); font-weight:600; white-space:nowrap; }
+.family-side .amp{ display:inline; font-style:italic; color:var(--copper); font-size:0.9em; margin:0 6px; }
 
 /* ============================================================
    NIKKAH
@@ -698,7 +639,7 @@ h1,h2,h3{ margin:0; font-weight:500; }
 }
 </style>
 </head>
-<body class="locked">
+<body>
 
 <!-- Fine paper grain overlay -->
 <svg class="grain" xmlns="http://www.w3.org/2000/svg">
@@ -707,19 +648,9 @@ h1,h2,h3{ margin:0; font-weight:500; }
 </svg>
 
 <!-- ============================================================
-     GATE — envelope opening video, the very first thing seen
+     PAGE — opens straight into the hero, no gate/envelope screen
 ============================================================ -->
-<div id="gate">
-  <img id="envelope-poster" class="gate-poster" src="assets/video/envelope-opening-poster.jpg" alt="">
-  <video id="envelope-video" src="assets/video/envelope-opening.mp4" poster="assets/video/envelope-opening-poster.jpg" muted playsinline preload="auto"></video>
-  <div class="gate-veil"></div>
-  <button id="open-btn" aria-label="Open invitation">Open Invitation</button>
-</div>
-
-<!-- ============================================================
-     PAGE
-============================================================ -->
-<div id="page">
+<div id="page" class="visible">
 
   <!-- HERO -->
   <section id="hero">
@@ -873,9 +804,6 @@ h1,h2,h3{ margin:0; font-weight:500; }
   <section id="teaser">
     <div class="inner">
       <div class="teaser-eyebrow reveal">A Celebration Awaits</div>
-      <div class="teaser-date reveal">30 October 2026</div>
-      <h2 class="teaser-title reveal">Reception</h2>
-      <p class="teaser-place reveal">EK Nayanar Academy · Kannur</p>
       <p class="teaser-whisper reveal">Something beautiful is waiting for you.</p>
 
       <button id="reveal-orb" class="reveal-orb reveal" aria-label="Tap to reveal the reception film">
@@ -987,49 +915,6 @@ const io = new IntersectionObserver((entries)=>{
 revealEls.forEach(el=>io.observe(el));
 
 /* ============================================================
-   GATE — envelope opening video, then soft dissolve into hero
-============================================================ */
-const gate = document.getElementById('gate');
-const envelopeVideo = document.getElementById('envelope-video');
-const envelopePoster = document.getElementById('envelope-poster');
-const openBtn = document.getElementById('open-btn');
-const page = document.getElementById('page');
-let gateOpened = false;
-
-function openGate(){
-  if(gateOpened) return;
-  gateOpened = true;
-  gate.classList.add('fading');
-  page.classList.add('visible');
-  document.body.classList.remove('locked');
-  setTimeout(()=>{ gate.classList.add('gone'); }, 1350);
-}
-
-// The envelope never autoplays — the poster (first frame of the video)
-// stays visible until the guest taps "Open Invitation". Only then does
-// the video start playing.
-envelopeVideo.addEventListener('playing', ()=>{ envelopePoster.classList.add('hide'); });
-envelopeVideo.addEventListener('pause', ()=>{ envelopePoster.classList.remove('hide'); });
-
-envelopeVideo.addEventListener('ended', openGate);
-
-openBtn.addEventListener('click', ()=>{
-  openBtn.classList.add('hidden');
-  envelopeVideo.play().catch(()=>{
-    // If playback still fails for some reason, don't trap the guest.
-    openGate();
-  });
-  // A tap is a user gesture — safe to start the background music now too.
-  if(bgMusic && bgMusic.paused){
-    bgMusic.play().then(()=>{
-      musicToggle.classList.remove('muted');
-      musicToggle.setAttribute('aria-pressed','true');
-    }).catch(()=>{});
-  }
-});
-
-
-/* ============================================================
    RECEPTION TEASER → the film wakes up inline, in place, like an
    illustration coming to life — the page never leaves the scroll,
    never locks, never goes to a fullscreen video screen.
@@ -1102,11 +987,30 @@ function closeReception(){
 rvClose.addEventListener('click', closeReception);
 
 /* ============================================================
-   MUSIC TOGGLE — activates automatically once a track is wired
+   MUSIC TOGGLE — starts automatically; browsers that block
+   autoplay-with-sound get it started on the guest's first tap
 ============================================================ */
 const musicToggle = document.getElementById('music-toggle');
 const bgMusic = document.getElementById('bg-music');
 if(!bgMusic.src){ musicToggle.style.display = 'none'; }
+
+function startMusic(){
+  if(!bgMusic.src || !bgMusic.paused) return;
+  bgMusic.play().then(()=>{
+    musicToggle.classList.remove('muted');
+    musicToggle.setAttribute('aria-pressed','true');
+  }).catch(()=>{});
+}
+
+// Try right away — works on browsers that allow it.
+startMusic();
+
+// Most mobile browsers block audio until the guest interacts with the
+// page, so start it on the very first tap/click/keypress as a fallback.
+['pointerdown','touchstart','keydown'].forEach(evt=>{
+  document.addEventListener(evt, startMusic, { once:true, passive:true });
+});
+
 musicToggle.addEventListener('click', ()=>{
   if(bgMusic.paused){
     bgMusic.play().catch(()=>{});
@@ -1118,6 +1022,7 @@ musicToggle.addEventListener('click', ()=>{
     musicToggle.setAttribute('aria-pressed','false');
   }
 });
+
 </script>
 </body>
 </html>
