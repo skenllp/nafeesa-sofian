@@ -7,13 +7,13 @@
 
 <meta property="og:title" content="Nafeesa Azra & Sofian Mohammed Ghazali — Wedding Invitation">
 <meta property="og:description" content="Join us in celebrating the Nikkah Ceremony of Nafeesa Azra & Sofian Mohammed Ghazali on 1 November 2026.">
-<meta property="og:image" content="assets/images/og-image.jpg">
+<meta property="og:image" content="https://nafeesa-sofian.vercel.app/assets/images/og-image.jpg">
 <meta property="og:type" content="website">
-<meta property="og:url" content="">
+<meta property="og:url" content="https://nafeesa-sofian.vercel.app/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Nafeesa Azra & Sofian Mohammed Ghazali — Wedding Invitation">
 <meta name="twitter:description" content="Join us in celebrating the Nikkah Ceremony of Nafeesa Azra & Sofian Mohammed Ghazali on 1 November 2026.">
-<meta name="twitter:image" content="assets/images/og-image.jpg">
+<meta name="twitter:image" content="https://nafeesa-sofian.vercel.app/assets/images/og-image.jpg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -630,9 +630,9 @@ h1,h2,h3{ margin:0; font-weight:500; }
 ============================================================ -->
 <div id="gate">
   <img id="envelope-poster" class="gate-poster" src="assets/video/envelope-opening-poster.jpg" alt="">
-  <video id="envelope-video" src="assets/video/envelope-opening.mp4" poster="assets/video/envelope-opening-poster.jpg" autoplay muted playsinline preload="auto"></video>
+  <video id="envelope-video" src="assets/video/envelope-opening.mp4" poster="assets/video/envelope-opening-poster.jpg" muted playsinline preload="auto"></video>
   <div class="gate-veil"></div>
-  <button id="open-btn" class="hidden" aria-label="Open invitation">Open Invitation</button>
+  <button id="open-btn" aria-label="Open invitation">Open Invitation</button>
 </div>
 
 <!-- ============================================================
@@ -841,7 +841,7 @@ h1,h2,h3{ margin:0; font-weight:500; }
     <rect class="bar" x="17" y="12" width="3" height="8" rx="1" fill="currentColor"/>
   </svg>
 </button>
-<audio id="bg-music" loop preload="none"></audio>
+<audio id="bg-music" loop preload="none" src="assets/audio/nikkah-song.mp3"></audio>
 
 <script>
 /* ============================================================
@@ -918,28 +918,28 @@ function openGate(){
   setTimeout(()=>{ gate.classList.add('gone'); }, 1350);
 }
 
-// Reveal live video only once frames are actually playing — keeps the
-// first frame visible as a stable image the rest of the time.
+// The envelope never autoplays — the poster (first frame of the video)
+// stays visible until the guest taps "Open Invitation". Only then does
+// the video start playing.
 envelopeVideo.addEventListener('playing', ()=>{ envelopePoster.classList.add('hide'); });
 envelopeVideo.addEventListener('pause', ()=>{ envelopePoster.classList.remove('hide'); });
 
 envelopeVideo.addEventListener('ended', openGate);
 
-const playPromise = envelopeVideo.play();
-if(playPromise !== undefined){
-  playPromise.catch(()=>{
-    // Autoplay blocked — first frame stays visible via the poster image,
-    // with a minimal button to start playback on tap.
-    openBtn.classList.remove('hidden');
-  });
-}
 openBtn.addEventListener('click', ()=>{
-  envelopeVideo.play().catch(()=>{});
   openBtn.classList.add('hidden');
+  envelopeVideo.play().catch(()=>{
+    // If playback still fails for some reason, don't trap the guest.
+    openGate();
+  });
+  // A tap is a user gesture — safe to start the background music now too.
+  if(bgMusic && bgMusic.paused){
+    bgMusic.play().then(()=>{
+      musicToggle.classList.remove('muted');
+      musicToggle.setAttribute('aria-pressed','true');
+    }).catch(()=>{});
+  }
 });
-
-// Safety: if video metadata never loads, don't trap the guest forever
-setTimeout(()=>{ if(!gateOpened) openBtn.classList.remove('hidden'); }, 6000);
 
 
 /* ============================================================
