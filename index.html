@@ -17,7 +17,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Amiri:wght@400;700&family=Great+Vibes:wght@400&family=Allura:wght@400&display=swap" rel="stylesheet">
 
 <style>
 /* ============================================================
@@ -42,6 +42,7 @@
 
   --font-display: 'Cormorant Garamond', 'Playfair Display', serif;
   --font-arabic:  'Amiri', serif;
+  --font-cursive: 'Allura', cursive;
 
   --ease: cubic-bezier(.22,.61,.36,1);
 }
@@ -259,8 +260,9 @@ h1,h2,h3{ margin:0; font-weight:500; }
   font-size:clamp(40px,11vw,58px);
   line-height:1.15;
   color:var(--copper-deep);
-  font-weight:700;
+  font-weight:300;
   letter-spacing:0.03em;
+  font-family:var(--font-cursive);
 }
 .hero-amp{
   display:block;
@@ -315,7 +317,9 @@ h1,h2,h3{ margin:0; font-weight:500; }
   font-size:clamp(34px,9vw,44px);
   margin:10px 0 22px;
   color:var(--ink);
-  font-weight:700;
+  font-weight:400;
+  font-family:var(--font-cursive);
+  letter-spacing:0.03em;
 }
 .invite-lineage{
   font-size:15px; line-height:1.9; color:var(--ink-soft);
@@ -344,7 +348,8 @@ h1,h2,h3{ margin:0; font-weight:500; }
   letter-spacing:0.08em;
   line-height:1.5;
   color:var(--ink);
-  font-weight:700;
+  font-weight:400;
+  font-family:var(--font-cursive);
 }
 .ts-amp{
   display:block;
@@ -364,7 +369,8 @@ h1,h2,h3{ margin:0; font-weight:500; }
 .family-name{
   font-size:26px; letter-spacing:0.06em; color:var(--copper-deep);
   margin-bottom:30px;
-  font-weight:700;
+  font-weight:400;
+  font-family:var(--font-cursive);
 }
 .family-side{ margin-bottom:22px; }
 .family-side .label{
@@ -392,6 +398,7 @@ h1,h2,h3{ margin:0; font-weight:500; }
   font-weight:700;
 }
 .nikkah-year{ font-size:17px; letter-spacing:0.4em; color:var(--ink-faint); margin-bottom:36px; font-weight:600; }
+.nikkah-time{ font-size:16px; letter-spacing:0.2em; color:var(--copper-deep); margin-bottom:24px; font-weight:600; }
 .nikkah-venue{ font-size:22px; color:var(--ink); margin-bottom:4px; font-weight:700; }
 .nikkah-loc{ font-size:15px; letter-spacing:0.14em; color:var(--ink-soft); margin-bottom:38px; font-weight:600; }
 
@@ -512,7 +519,7 @@ h1,h2,h3{ margin:0; font-weight:500; }
   display:flex; align-items:center; justify-content:center;
   padding:150px 26px 120px;
 }
-.closing-names{ font-size:clamp(30px,8vw,40px); color:var(--ink); letter-spacing:0.04em; font-weight:700; }
+.closing-names{ font-size:clamp(30px,8vw,40px); color:var(--ink); letter-spacing:0.04em; font-weight:400; font-family:var(--font-cursive); }
 .closing-date{ font-size:16px; letter-spacing:0.3em; color:var(--copper-deep); margin:16px 0; font-weight:700; }
 .closing-tag{ font-style:italic; font-size:14px; letter-spacing:0.1em; color:var(--ink-faint); }
 
@@ -679,12 +686,7 @@ h1,h2,h3{ margin:0; font-weight:500; }
       <p class="invite-lead reveal" style="margin-bottom:0;">of their beloved Daughter</p>
       <h2 class="invite-name reveal">Nafeesa Azra</h2>
       <p class="invite-lineage reveal">
-        Granddaughter of <b>Late Mr. C.C. Abdulla</b> &amp; <b>Late A.Mariyumma</b><br>
-        <span style="font-size:12px; letter-spacing:0.2em; color:var(--ink-faint);">PATERNAL</span>
-      </p>
-      <p class="invite-lineage reveal" style="margin-top:16px;">
-        Granddaughter of <b>Mr. M. Abdul Azeez</b> &amp; <b>Late Mrs. Safiya P</b><br>
-        <span style="font-size:12px; letter-spacing:0.2em; color:var(--ink-faint);">MATERNAL</span>
+        Granddaughter of <b>Late Mr. C.C. Abdulla</b> &amp; <b>Late A.Mariyumma</b> <span style="font-size:12px; letter-spacing:0.2em; color:var(--ink-faint);">[PATERNAL]</span> | <b>Mr. M. Abdul Azeez</b> &amp; <b>Late Mrs. Safiya P</b> <span style="font-size:12px; letter-spacing:0.2em; color:var(--ink-faint);">[MATERNAL]</span>
       </p>
 
       <div class="divider reveal"></div>
@@ -693,12 +695,7 @@ h1,h2,h3{ margin:0; font-weight:500; }
       <h2 class="invite-name reveal">Sofian Mohammed Ghazali</h2>
       <p class="invite-lead reveal" style="margin-bottom:20px;">Son of Mr. K Mohammed Ghazali &amp; Mrs. Meher Ghazali</p>
       <p class="invite-lineage reveal">
-        Grandson of <b>Mrs. Noorjahan</b> &amp; <b>Late Mr. Kamaludeen</b><br>
-        <span style="font-size:12px; letter-spacing:0.2em; color:var(--ink-faint);">PATERNAL</span>
-      </p>
-      <p class="invite-lineage reveal" style="margin-top:16px;">
-        Grandson of <b>Late Mrs. Nachia</b> &amp; <b>Late Mr. Syed Mohammed</b><br>
-        <span style="font-size:12px; letter-spacing:0.2em; color:var(--ink-faint);">MATERNAL</span>
+        Grandson of <b>Mrs. Noorjahan</b> &amp; <b>Late Mr. Kamaludeen</b> <span style="font-size:12px; letter-spacing:0.2em; color:var(--ink-faint);">[PATERNAL]</span> | <b>Late Mrs. Nachia</b> &amp; <b>Late Mr. Syed Mohammed</b> <span style="font-size:12px; letter-spacing:0.2em; color:var(--ink-faint);">[MATERNAL]</span>
       </p>
     </div>
   </section>
@@ -756,6 +753,7 @@ h1,h2,h3{ margin:0; font-weight:500; }
       <div class="nikkah-day reveal">01</div>
       <div class="nikkah-month reveal">November</div>
       <div class="nikkah-year reveal">2026</div>
+      <div class="nikkah-time reveal">5:30 PM Onwards</div>
       <div class="nikkah-venue reveal">K-Hills Resort &amp; Spa</div>
       <div class="nikkah-loc reveal">Ramanattukara, Calicut</div>
       <a class="btn reveal" href="https://www.google.com/maps/search/?api=1&query=K-Hills+Resort+%26+Spa+Ramanattukara+Calicut" target="_blank" rel="noopener">View Location</a>
